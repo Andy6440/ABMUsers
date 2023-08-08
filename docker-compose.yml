@@ -1,0 +1,71 @@
+version: '3.1'
+
+services:
+  app:
+    build:
+      context: ./backend # Path to the Laravel project
+      dockerfile: Dockerfile
+    image: laravel_app
+    container_name: laravel_app
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+      - ./backend:/var/www/html # Mount Laravel source code
+    env_file:
+      - ./.env # .env file
+    networks:
+      - laravel_network
+    depends_on:
+      - db
+
+  webserver:
+    image: nginx
+    container_name: nginx_server
+    restart: unless-stopped
+    ports:
+      - "81:81"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./frontend/dist:/usr/share/nginx/html # Mount Vue.js source code
+    depends_on:
+      - app
+    networks:
+      - laravel_network
+
+  db:
+    image: mysql
+    command: --default-authentication-plugin=caching_sha2_password
+    container_name: mysql_db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql # Volume to persist data
+    ports:
+      - "3306:3306"
+    networks:
+      - laravel_network
+
+  frontend:
+    build:
+      context: ./frontend # Path to the Vue.js project
+      dockerfile: Dockerfile
+    image: vue_frontend
+    container_name: vue_frontend
+    restart: unless-stopped
+    ports:
+      - "82:82" # Port for the frontend
+    volumes:
+      - ./frontend:/usr/src/app # Mount Vue.js source code
+    networks:
+      - laravel_network
+
+networks:
+  laravel_network:
+    driver: bridge
+
+volumes:
+  mysql_data: # Volume to persist MySQL data
