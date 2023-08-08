@@ -1,27 +1,16 @@
-FROM php:8.2-fpm
+FROM php:8.0-fpm
 
 # Install system dependencies
-RUN apt-get update && apt-get install -y git curl libpng-dev libjpeg-dev libfreetype6-dev zip unzip
+RUN apt-get update && apt-get install -y \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd pdo pdo_mysql
 
-# Install PHP extensions
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg
-RUN docker-php-ext-install gd pdo pdo_mysql
 
-# Install Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# Establecer el directorio de trabajo
+WORKDIR /var/www
 
-# Set working directory
-WORKDIR /var/www/html
-
-# Install dependencies
-COPY composer.json composer.lock ./
-RUN composer install --no-scripts --no-autoloader
-
-# Copy existing application directory contents
-COPY . .
-
-# Generate autoloader and clear cache
-RUN composer dump-autoload --optimize
-
-# Expose port 80 for Apache
-EXPOSE 81
+# Copiar el código fuente
+COPY . /var/www
