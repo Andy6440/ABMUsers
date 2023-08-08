@@ -23,6 +23,5 @@ COPY . .
 # Generate autoloader and clear cache
 RUN composer dump-autoload --optimize
 
-# Expose port 9000 and start php-fpm server
-EXPOSE 9000
-CMD ["php-fpm"]
+# Expose port 80 for Apache
+EXPOSE 81

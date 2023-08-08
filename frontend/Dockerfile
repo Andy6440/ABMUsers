@@ -22,8 +22,8 @@ FROM nginx:alpine
 # Copy the built application from the previous stage
 COPY --from=0 /usr/src/app/dist /usr/share/nginx/html
 
-# Expose port 81
-EXPOSE 81
+# Expose port 82
+EXPOSE 80
 
 # Start Nginx
 CMD ["nginx", "-g", "daemon off;"]

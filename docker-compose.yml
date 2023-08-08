@@ -1,9 +1,10 @@
 version: '3.1'
 
 services:
+  # Laravel Service
   app:
     build:
-      context: ./backend # Path to the Laravel project
+      context: ./backend
       dockerfile: Dockerfile
     image: laravel_app
     container_name: laravel_app
@@ -11,13 +12,27 @@ services:
     working_dir: /var/www/html
     volumes:
       - ./backend:/var/www/html # Mount Laravel source code
-    env_file:
-      - ./.env # .env file
     networks:
       - laravel_network
     depends_on:
       - db
 
+  # Vue.js Service
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: vue_frontend
+    container_name: vue_frontend
+    restart: unless-stopped
+    ports:
+      - "82:82" # Port for the frontend
+    volumes:
+      - ./frontend:/usr/src/app # Mount Vue.js source code
+    networks:
+      - laravel_network
+
+  # Nginx Service
   webserver:
     image: nginx
     container_name: nginx_server
@@ -32,6 +47,7 @@ services:
     networks:
       - laravel_network
 
+  # MySQL Service
   db:
     image: mysql
     command: --default-authentication-plugin=caching_sha2_password
@@ -39,34 +55,11 @@ services:
     restart: unless-stopped
     environment:
       MYSQL_DATABASE: ${DB_DATABASE}
-      MYSQL_USER: ${DB_USERNAME}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
     volumes:
       - mysql_data:/var/lib/mysql # Volume to persist data
     ports:
       - "3306:3306"
-    networks:
-      - laravel_network
-  adminer:
-    image: adminer
-    container_name: adminer_server
-    restart: unless-stopped
-    ports:
-      - "8090:8080" # Map port 8090 on the host to port 8080 in the container
-    networks:
-      - laravel_network
-  frontend:
-    build:
-      context: ./frontend # Path to the Vue.js project
-      dockerfile: Dockerfile
-    image: vue_frontend
-    container_name: vue_frontend
-    restart: unless-stopped
-    ports:
-      - "82:82" # Port for the frontend
-    volumes:
-      - ./frontend:/usr/src/app # Mount Vue.js source code
     networks:
       - laravel_network
 
