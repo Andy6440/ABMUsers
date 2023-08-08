@@ -1,20 +1,52 @@
 # My Project
 
-A full-stack application with Laravel 10 for the backend and Vue.js with Vuetify 3 for the frontend.
+This project consists of a Laravel backend and a Vue.js frontend, both containerized using Docker, along with Adminer for database management.
 
-## Backend Setup
+## Prerequisites
 
-1. Navigate to the `backend` directory.
-2. Run `composer install`.
-3. Configure the `.env` file.
-4. Run `php artisan serve`.
+- Docker
+- Docker Compose
 
-## Frontend Setup
+## Structure
 
-1. Navigate to the `frontend` directory.
-2. Run `npm install`.
-3. Run `npm run serve`.
+- `backend/`: Laravel project files
+- `frontend/`: Vue.js project files
+- `nginx/`: Nginx configuration files
+- `docker-compose.yml`: Docker Compose configuration
+- `.env`: Environment variables
 
-## License
+## Setup and Running
 
-This project is licensed under the MIT License.
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/Andy6440/ABMUsers.git
+cd ABMUsers
+```
+### 2. Configure Environment Variables
+
+Edit the  `.env` file to set up your environment variables, such as database credentials.
+
+### 3. Build the Containers
+
+Build the Docker containers:    
+```bash
+docker-compose build
+```
+
+### 4. Start the Containers
+Start the containers in detached mode:
+```bash
+docker-compose up -d
+```
+### 5. Access the Application
+
+- Frontend: Open `http://localhost:82` in your browser.
+- Backend: Access the API at `http://localhost:81/api`.
+- Adminer: Access the database management interface at `http://localhost:8090`.
+
+### 6. Stopping and Removing Containers
+To stop and remove the containers, run:
+```bash
+docker-compose down
+```
