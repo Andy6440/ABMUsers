@@ -1,0 +1,26 @@
+# Laravel specific
+/backend/node_modules
+/backend/public/build
+/backend/public/hot
+/backend/public/storage
+/backend/storage/*.key
+/backend/vendor
+/backend/.env
+/backend/.env.backup
+/backend/.env.production
+/backend/.phpunit.result.cache
+/backend/Homestead.json
+/backend/Homestead.yaml
+/backend/auth.json
+
+# Vue.js specific
+/frontend/node_modules
+/frontend/dist
+/frontend/yarn-error.log
+
+# Various IDE and editor files
+/.vscode
+
+# Log files
+npm-debug.log
+yarn-error.log

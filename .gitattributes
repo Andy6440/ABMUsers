@@ -1,0 +1,21 @@
+* text=auto
+
+*.blade.php diff=html
+*.css diff=css
+*.html diff=html
+*.md diff=markdown
+*.php diff=php
+
+/.github export-ignore
+CHANGELOG.md export-ignore
+.styleci.yml export-ignore
+
+# Optional: Define line endings for specific file types (if needed)
+# *.sh text eol=lf
+# *.bat text eol=crlf
+
+# Optional: Mark certain file types as binary (if needed)
+# *.png binary
+# *.jpg binary
+# *.gif binary
+# *.pdf binary
