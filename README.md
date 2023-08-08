@@ -10,7 +10,7 @@ This project consists of a Laravel backend and a Vue.js frontend, both container
 ## Structure
 
 - `backend/`: Laravel project files
-- `frontend/`: Vue.js project files
+- `frontend/`: react.js project files
 - `nginx/`: Nginx configuration files
 - `docker-compose.yml`: Docker Compose configuration
 - `.env`: Environment variables
@@ -40,9 +40,8 @@ Start the containers in detached mode:
 docker-compose up -d
 ```
 ### 5. Access the Application
-http://localhost y al Adminer en http://localhost:8080.
-- Frontend: Open `http://localhost:8081` in your browser.
-- Backend: Access the API at `http://localhost:81/api`.
+- Frontend: Open `http://localhost:3000` in your browser.
+- Backend: Access the API at `http://localhost:8081/api`.
 - Adminer: Access the database management interface at `http://localhost:8080`.
 
 ### 6. Stopping and Removing Containers
